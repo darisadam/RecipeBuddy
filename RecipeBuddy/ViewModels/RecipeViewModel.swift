@@ -13,6 +13,8 @@ class RecipeViewModel: ObservableObject {
   @Published private(set) var recipes: [Recipe] = []
   @Published var favoriteRecipes: Set<String> = []
   @Published var searchbarText: String = ""
+  @Published var selectedTags: Set<String> = []
+  @Published private(set) var sortOrder: SortOrder? = nil
   
   let recipeService: RecipeService
   let recipeStorage = UserDefaults.standard
@@ -21,6 +23,8 @@ class RecipeViewModel: ObservableObject {
     self.recipeService = recipeService
     self.favoriteRecipes = Set(recipeStorage.array(forKey: "favorites") as? [String] ?? [])
   }
+  
+  // MARK: - Filter Data by Search Query
   
   var filteredRecipes: [Recipe] {
     let query = searchbarText.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -32,6 +36,60 @@ class RecipeViewModel: ObservableObject {
       return recipes
     }
   }
+  
+  // MARK: - Filter Data by Tags and Sort
+  
+  var availableTags: [String] {
+    let allTags = recipes.flatMap { $0.tags }
+    return Array(Set(allTags)).sorted()
+  }
+  
+  var tagFilteredRecipes: [Recipe] {
+    if selectedTags.isEmpty {
+      return filteredRecipes
+    } else {
+      return filteredRecipes.filter {
+        $0.tags.contains(where: selectedTags.contains)
+      }
+    }
+  }
+  
+  var filteredAndSortedRecipes: [Recipe] {
+    let filtered = tagFilteredRecipes
+    
+    guard let sortOrder = sortOrder else {
+      return filtered
+    }
+    
+    switch sortOrder {
+    case .ascending:
+      return filtered.sorted { $0.minutes < $1.minutes }
+    case .descending:
+      return filtered.sorted { $0.minutes > $1.minutes }
+    }
+  }
+  
+  func toggleTagFilter(_ tag: String) {
+    if selectedTags.contains(tag) {
+      selectedTags.remove(tag)
+    } else {
+      selectedTags.insert(tag)
+    }
+  }
+  
+  func removeTagFilter(_ tag: String) {
+    selectedTags.remove(tag)
+  }
+  
+  func clearAllFilters() {
+    selectedTags.removeAll()
+  }
+  
+  func setSortOrder(_ order: SortOrder?) {
+    sortOrder = order
+  }
+  
+  // MARK: - Default Populate Data
   
   func populateRecipeData() async throws {
     recipes = try await recipeService.loadRecipe(localPath: Constant.recipeFile, remotePath: Constant.recipesDataUrl)
