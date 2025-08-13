@@ -16,7 +16,7 @@ struct RecipeItem: View {
   
   var body: some View {
     HStack(spacing: 16) {
-      AsyncImage(url: URL(string: thumbnailURL)) { image in
+      AsyncCachedImage(url: URL(string: thumbnailURL)) { image in
         image
           .resizable()
           .scaledToFill()
