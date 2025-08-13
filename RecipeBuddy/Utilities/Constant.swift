@@ -15,4 +15,7 @@ struct Constant {
   
   // MARK: - URL
   static let recipesDataUrl: String = "https://raw.githubusercontent.com/darisadam/RecipeBuddy/refs/heads/develop/RecipeBuddy/recipes.json"
+  
+  // MARK: - Key
+  static let favorites: String = "favorites"
 }

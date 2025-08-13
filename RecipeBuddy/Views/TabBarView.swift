@@ -14,17 +14,17 @@ struct TabBarView: View {
     TabView {
       HomeView()
         .tabItem {
-          Label("Home", systemImage: "house.fill")
+          Label("Home", systemImage: AppImage.houseFillIcon)
         }
       
       WeeklyPlanView()
         .tabItem {
-          Label("Plan", systemImage: "calendar")
+          Label("Plan", systemImage: AppImage.calendarIcon)
         }
       
       FavoriteRecipeView()
         .tabItem {
-          Label("Favorite", systemImage: "star.fill")
+          Label("Favorite", systemImage: AppImage.starFillIcon)
         }
     }
   }
