@@ -3,9 +3,9 @@
 ## Version
 1.0.0
 
-[![Watch the video](https://img.youtube.com/vi/.../maxresdefault.jpg)](https://youtu.be/...)<br />
+[![Watch the video](https://img.youtube.com/vi/ow9oIM9iSjM/maxresdefault.jpg)](https://youtu.be/ow9oIM9iSjM)<br />
 
-Video: Youtube Link will be here<br />
+Video: https://youtube.com/shorts/ow9oIM9iSjM<br />
 GitHub: https://github.com/darisadam/RecipeBuddy<br />
 TestFlight: https://testflight.apple.com/join/4cfU6EVZ (waiting for approval from the App Store)<br />
 
