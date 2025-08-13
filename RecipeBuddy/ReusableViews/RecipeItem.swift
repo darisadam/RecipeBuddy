@@ -20,12 +20,12 @@ struct RecipeItem: View {
         image
           .resizable()
           .scaledToFill()
-          .frame(width: 100, height: 100)
-          .clipShape(RoundedRectangle(cornerRadius: 10))
       } placeholder: {
-        RoundedRectangle(cornerRadius: 20)
+        RoundedRectangle(cornerRadius: 10)
           .fill(Color.gray.opacity(0.3))
       }
+      .frame(width: 100, height: 100)
+      .clipShape(RoundedRectangle(cornerRadius: 10))
       
       VStack(alignment: .leading, spacing: 8) {
         Text(title)
@@ -41,7 +41,11 @@ struct RecipeItem: View {
           .font(.caption)
         }
         
-        Text("Cooking time: \(estimatedTime) minutes")
+        HStack {
+          Image(systemName: "timer")
+          Text("\(estimatedTime) minutes")
+        }
+        .font(.subheadline)
       }
       
       Spacer()
