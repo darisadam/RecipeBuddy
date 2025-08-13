@@ -50,5 +50,5 @@ struct HomeView: View {
 
 #Preview {
   HomeView()
-    .environmentObject(RecipeViewModel(recipeService: RecipeService(fileName: Constant.recipeFile)))
+    .environmentObject(RecipeViewModel(recipeService: RecipeService(fileName: Constant.recipeFile, remoteURL: Constant.recipesDataUrl)))
 }

@@ -12,7 +12,7 @@ struct RecipeBuddyApp: App {
   @StateObject private var viewModel: RecipeViewModel
   
   init() {
-    let recipeService = RecipeService(fileName: Constant.recipeFile)
+    let recipeService = RecipeService(fileName: Constant.recipeFile, remoteURL: Constant.recipesDataUrl)
     _viewModel = StateObject(wrappedValue: RecipeViewModel(recipeService: recipeService))
   }
   
