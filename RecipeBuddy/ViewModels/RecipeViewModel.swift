@@ -12,6 +12,7 @@ import Foundation
 class RecipeViewModel: ObservableObject {
   @Published private(set) var recipes: [Recipe] = []
   @Published var favoriteRecipes: Set<String> = []
+  @Published var searchbarText: String = ""
   
   let recipeService: RecipeService
   let recipeStorage = UserDefaults.standard
@@ -19,6 +20,17 @@ class RecipeViewModel: ObservableObject {
   init(recipeService: RecipeService) {
     self.recipeService = recipeService
     self.favoriteRecipes = Set(recipeStorage.array(forKey: "favorites") as? [String] ?? [])
+  }
+  
+  var filteredRecipes: [Recipe] {
+    let query = searchbarText.trimmingCharacters(in: .whitespacesAndNewlines)
+    
+    if query.isNotEmpty {
+      let normalizedQuery = normalizeSearchText(query)
+      return recipes.filter { normalizeSearchText($0.title).contains(normalizedQuery) }
+    } else {
+      return recipes
+    }
   }
   
   func populateRecipeData() async throws {
@@ -31,6 +43,10 @@ class RecipeViewModel: ObservableObject {
     }
     
     return recipes[index]
+  }
+  
+  private func normalizeSearchText(_ text: String) -> String {
+    text.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current)
   }
 }
 
