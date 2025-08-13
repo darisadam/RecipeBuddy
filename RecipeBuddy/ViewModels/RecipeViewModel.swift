@@ -11,11 +11,14 @@ import Foundation
 @MainActor
 class RecipeViewModel: ObservableObject {
   @Published private(set) var recipes: [Recipe] = []
+  @Published var favoriteRecipes: Set<String> = []
   
   let recipeService: RecipeService
+  let recipeStorage = UserDefaults.standard
   
   init(recipeService: RecipeService) {
     self.recipeService = recipeService
+    self.favoriteRecipes = Set(recipeStorage.array(forKey: "favorites") as? [String] ?? [])
   }
   
   func populateRecipeData() async throws {
@@ -28,5 +31,27 @@ class RecipeViewModel: ObservableObject {
     }
     
     return recipes[index]
+  }
+}
+
+// MARK: - Add To Favorite Handler
+
+extension RecipeViewModel {
+  func contains(_ recipeId: String) -> Bool {
+    favoriteRecipes.contains(recipeId)
+  }
+  
+  func addFavorite(_ recipeId: String) {
+    favoriteRecipes.insert(recipeId)
+    save()
+  }
+  
+  func removeFavorite(_ recipeId: String) {
+    favoriteRecipes.remove(recipeId)
+    save()
+  }
+  
+  private func save() {
+    recipeStorage.set(Array(self.favoriteRecipes), forKey: "favorites")
   }
 }

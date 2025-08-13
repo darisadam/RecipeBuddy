@@ -11,59 +11,95 @@ import SwiftUI
 struct RecipeDetailView: View {
   @EnvironmentObject private var viewModel: RecipeViewModel
   @Environment(\.dismiss) private var dismiss
+  @State private var ingredientStates: [String: Bool] = [:]
   
   let recipeId: String
   
   var body: some View {
     if let recipe = viewModel.populateRecipeById(recipeId) {
       ScrollView(.vertical, showsIndicators: false) {
-        VStack {
-          AsyncImage(url: URL(string: recipe.image)) { image in
-            image
-              .resizable()
-              .scaledToFill()
-              .frame(maxWidth: .infinity)
-              .frame(height: 300)
-              .clipShape(Rectangle())
-          } placeholder: {
-            Color.gray
-              .frame(maxWidth: .infinity)
-              .frame(height: 300)
-          }
+        
+        // MARK: - Header Image
+        
+        AsyncImage(url: URL(string: recipe.image)) { image in
+          image
+            .resizable()
+            .scaledToFill()
+            .frame(maxWidth: .infinity)
+            .frame(height: 300)
+            .clipShape(Rectangle())
+            .ignoresSafeArea()
+        } placeholder: {
+          Color.gray
+            .frame(maxWidth: .infinity)
+            .frame(height: 300)
+        }
+        
+        VStack(alignment: .leading) {
           
-          VStack(alignment: .leading) {
-            HStack {
-              VStack(alignment: .leading) {
-                Text(recipe.title)
-                
-                Text("Cooking time: \(recipe.minutes) minutes")
-                
-                HStack(spacing: 0) {
-                  ForEach(recipe.tags, id: \.self) { tag in
-                    Image(systemName: "tag")
-                    Text(tag)
-                      .padding(.trailing, 4)
-                  }
+          // MARK: - Recipe Description
+          
+          HStack {
+            VStack(alignment: .leading) {
+              Text(recipe.title)
+                .font(.title)
+                .bold()
+              
+              Text("Cooking time: \(recipe.minutes) minutes")
+              
+              HStack(spacing: 0) {
+                ForEach(recipe.tags, id: \.self) { tag in
+                  Image(systemName: "tag")
+                  Text(tag)
+                    .padding(.trailing, 4)
                 }
               }
-              
-              Image(systemName: "star")
-                .font(.title)
+              .padding(.vertical, 16)
             }
             
-            Text("Ingredient:")
+            Spacer()
             
-            ForEach(recipe.ingredients, id: \.self) { ingredient in
+            Image(systemName: viewModel.favoriteRecipes.contains(recipeId) ? "star.fill" : "star")
+              .font(.title)
+              .onTapGesture {
+                if viewModel.favoriteRecipes.contains(recipeId) {
+                  viewModel.removeFavorite(recipeId)
+                } else {
+                  viewModel.addFavorite(recipeId)
+                }
+              }
+          }
+          
+          // MARK: - Recipe Ingredients
+          
+          Text("Ingredients:")
+            .font(.headline)
+            .padding(.vertical, 16)
+          
+          ForEach(recipe.ingredients, id: \.self) { ingredient in
+            Toggle(isOn: Binding(
+              get: { ingredientStates[ingredient.name] ?? false },
+              set: { ingredientStates[ingredient.name] = $0 }
+            )) {
               Text("\(ingredient.quantity) \(ingredient.name)")
             }
-            
-            Text("How to cook:")
-            ForEach(recipe.steps, id: \.self) { step in
+            .toggleStyle(CheckboxToggleStyle())
+          }
+          
+          // MARK: - Recipe Step by Step
+          
+          Text("How to cook:")
+            .font(.headline)
+            .padding(.vertical, 16)
+          
+          ForEach(recipe.steps, id: \.self) { step in
+            HStack(alignment: .top, spacing: 2) {
+              Text("•")
               Text(step)
             }
           }
-          .padding()
         }
+        .padding(.horizontal, 40)
       }
     }
   }
