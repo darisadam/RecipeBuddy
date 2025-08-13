@@ -10,12 +10,12 @@ import SwiftUI
 
 struct ShoppingListView: View {
   @EnvironmentObject private var viewModel: RecipeViewModel
-  @State private var consolidatedIngredients: [ShoppingList] = []
+  @State private var shoppingList: [ShoppingList] = []
   
   var body: some View {
     NavigationStack {
       VStack {
-        if consolidatedIngredients.isEmpty {
+        if shoppingList.isEmpty {
           VStack(spacing: 16) {
             Image(systemName: "cart")
               .font(.system(size: 60))
@@ -36,7 +36,7 @@ struct ShoppingListView: View {
         } else {
           List {
             Section {
-              ForEach(consolidatedIngredients, id: \.name) { ingredient in
+              ForEach(shoppingList, id: \.name) { ingredient in
                 VStack(alignment: .leading, spacing: 4) {
                   HStack {
                     Text(ingredient.name)
@@ -79,7 +79,7 @@ struct ShoppingListView: View {
   }
   
   private func generateShoppingList() {
-    consolidatedIngredients = viewModel.generateConsolidatedShoppingList()
+    shoppingList = viewModel.generateShoppingList()
   }
 }
 

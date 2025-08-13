@@ -112,6 +112,10 @@ class RecipeViewModel: ObservableObject {
 // MARK: - Add To Favorite Handler
 
 extension RecipeViewModel {
+  var favoriteRecipesList: [Recipe] {
+    return recipes.filter { favoriteRecipes.contains($0.id) }
+  }
+  
   func contains(_ recipeId: String) -> Bool {
     favoriteRecipes.contains(recipeId)
   }
@@ -159,7 +163,7 @@ extension RecipeViewModel {
     saveMealPlan()
   }
   
-  func generateConsolidatedShoppingList() -> [ShoppingList] {
+  func generateShoppingList() -> [ShoppingList] {
     var ingredientMap: [String: ShoppingList] = [:]
     
     let allPlannedRecipes = DayOfWeek.allCases.flatMap { day in
