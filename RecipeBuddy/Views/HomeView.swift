@@ -14,14 +14,18 @@ struct HomeView: View {
     NavigationStack {
       VStack {
         List {
-          ForEach(viewModel.recipes) { recipe in
-            NavigationLink(value: recipe.id) {
-              RecipeItem(
-                thumbnailURL: recipe.image,
-                title: recipe.title,
-                tags: recipe.tags,
-                estimatedTime: recipe.minutes
-              )
+          if viewModel.searchbarText.isNotEmpty && viewModel.filteredRecipes.isEmpty {
+            Text("\(viewModel.searchbarText) not found")
+          } else {
+            ForEach(viewModel.filteredRecipes) { recipe in
+              NavigationLink(value: recipe.id) {
+                RecipeItem(
+                  thumbnailURL: recipe.image,
+                  title: recipe.title,
+                  tags: recipe.tags,
+                  estimatedTime: recipe.minutes
+                )
+              }
             }
           }
         }
@@ -40,6 +44,7 @@ struct HomeView: View {
         }
       }
     }
+    .searchable(text: $viewModel.searchbarText, prompt: "Search recipe")
   }
 }
 
