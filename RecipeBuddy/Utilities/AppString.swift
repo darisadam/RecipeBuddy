@@ -1,5 +1,5 @@
 //
-//  Constant.swift
+//  AppString.swift
 //  RecipeBuddy
 //
 //  Created by Adam on 13/08/25.
@@ -8,10 +8,9 @@
 
 import Foundation
 
-struct Constant {
+enum AppString: String {
   
-  // MARK: - Data
-  static let recipeFile: String = "recipes"
+  case test = "test"
   
-  
+  public var localized: String { NSLocalizedString(self.rawValue, comment: "") }
 }
