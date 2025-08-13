@@ -15,10 +15,10 @@ struct HomeView: View {
     NavigationStack {
       VStack {
         List {
-          if viewModel.searchbarText.isNotEmpty && viewModel.filteredRecipes.isEmpty {
+          if viewModel.searchbarText.isNotEmpty && viewModel.filteredAndSortedRecipes.isEmpty {
             Text("\(viewModel.searchbarText) not found")
           } else {
-            ForEach(viewModel.filteredRecipes) { recipe in
+            ForEach(viewModel.filteredAndSortedRecipes) { recipe in
               NavigationLink(value: recipe.id) {
                 RecipeItem(
                   thumbnailURL: recipe.image,
