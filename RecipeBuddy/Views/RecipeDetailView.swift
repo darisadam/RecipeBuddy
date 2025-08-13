@@ -21,7 +21,7 @@ struct RecipeDetailView: View {
         
         // MARK: - Header Image
         
-        AsyncImage(url: URL(string: recipe.image)) { image in
+        AsyncCachedImage(url: URL(string: recipe.image)) { image in
           image
             .resizable()
             .scaledToFill()
