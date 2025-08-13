@@ -49,7 +49,7 @@ struct RecipeDetailView: View {
               
               HStack(spacing: 0) {
                 ForEach(recipe.tags, id: \.self) { tag in
-                  Image(systemName: "tag")
+                  Image(systemName: AppImage.tagIcon)
                   Text(tag)
                     .padding(.trailing, 4)
                 }
@@ -59,7 +59,7 @@ struct RecipeDetailView: View {
             
             Spacer()
             
-            Image(systemName: viewModel.favoriteRecipes.contains(recipeId) ? "star.fill" : "star")
+            Image(systemName: viewModel.favoriteRecipes.contains(recipeId) ? AppImage.starFillIcon : AppImage.starIcon)
               .font(.title)
               .onTapGesture {
                 if viewModel.favoriteRecipes.contains(recipeId) {
@@ -81,7 +81,12 @@ struct RecipeDetailView: View {
               get: { ingredientStates[ingredient.name] ?? false },
               set: { ingredientStates[ingredient.name] = $0 }
             )) {
-              Text("\(ingredient.quantity) \(ingredient.name)")
+              HStack {
+                Text(ingredient.quantity)
+                  .bold()
+                
+                Text(ingredient.name)
+              }
             }
             .toggleStyle(CheckboxToggleStyle())
           }

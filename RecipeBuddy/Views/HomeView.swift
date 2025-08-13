@@ -9,20 +9,11 @@ import SwiftUI
 
 struct HomeView: View {
   @EnvironmentObject private var viewModel: RecipeViewModel
-  @State private var showFilter: Bool = false
-  @State private var showSort: Bool = false
+  @State private var showFilterAndShort: Bool = false
   
   var body: some View {
     NavigationStack {
       VStack {
-        HStack {
-          Spacer()
-          Button("Filter") { showFilter.toggle() }
-          Spacer()
-          Button("Sort") { showSort.toggle() }
-          Spacer()
-        }
-        
         List {
           if viewModel.searchbarText.isNotEmpty && viewModel.filteredRecipes.isEmpty {
             Text("\(viewModel.searchbarText) not found")
@@ -40,16 +31,16 @@ struct HomeView: View {
           }
         }
       }
-      .popover(isPresented: $showFilter) {
-        VStack {
-          Text("filter by recipe tags")
-            .presentationCompactAdaptation(.popover)
-        }
+      .sheet(isPresented: $showFilterAndShort) {
+        FilteringView()
       }
-      .popover(isPresented: $showSort) {
-        VStack {
-          Text("sort by cooking time")
-            .presentationCompactAdaptation(.popover)
+      .toolbar {
+        ToolbarItem(placement: .topBarLeading) {
+          Button {
+            showFilterAndShort.toggle()
+          } label: {
+            Image(systemName: AppImage.line3HorizontalDecreaseIcon)
+          }
         }
       }
       .navigationDestination(

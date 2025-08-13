@@ -21,7 +21,7 @@ class RecipeViewModel: ObservableObject {
   
   init(recipeService: RecipeService) {
     self.recipeService = recipeService
-    self.favoriteRecipes = Set(recipeStorage.array(forKey: "favorites") as? [String] ?? [])
+    self.favoriteRecipes = Set(recipeStorage.array(forKey: Constant.favorites) as? [String] ?? [])
   }
   
   // MARK: - Filter Data by Search Query
@@ -126,6 +126,6 @@ extension RecipeViewModel {
   }
   
   private func save() {
-    recipeStorage.set(Array(self.favoriteRecipes), forKey: "favorites")
+    recipeStorage.set(Array(self.favoriteRecipes), forKey: Constant.favorites)
   }
 }

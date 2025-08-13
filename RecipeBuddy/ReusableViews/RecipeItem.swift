@@ -42,7 +42,7 @@ struct RecipeItem: View {
         }
         
         HStack {
-          Image(systemName: "timer")
+          Image(systemName: AppImage.timerIcon)
           Text("\(estimatedTime) minutes")
         }
         .font(.subheadline)
