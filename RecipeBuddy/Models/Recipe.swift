@@ -13,7 +13,7 @@ struct Recipe: Identifiable, Codable {
   let title: String
   let tags: [String]
   let minutes: Int
-  let image: URL
+  let image: String
   let ingredients: [Ingredient]
   let steps: [String]
 }

@@ -13,7 +13,12 @@ struct HomeView: View {
   var body: some View {
     VStack {
       List(viewModel.recipes) { recipe in
-        Text(recipe.title)
+        RecipeItem(
+          thumbnailURL: recipe.image,
+          title: recipe.title,
+          tags: recipe.tags,
+          estimatedTime: recipe.minutes
+        )
       }
     }
     .task {
