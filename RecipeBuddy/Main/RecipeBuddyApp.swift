@@ -18,7 +18,7 @@ struct RecipeBuddyApp: App {
   
   var body: some Scene {
     WindowGroup {
-      HomeView()
+      TabBarView()
         .environmentObject(viewModel)
     }
   }
