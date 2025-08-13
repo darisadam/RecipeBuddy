@@ -15,6 +15,7 @@ class RecipeViewModel: ObservableObject {
   @Published var searchbarText: String = ""
   @Published var selectedTags: Set<String> = []
   @Published private(set) var sortOrder: SortOrder? = nil
+  @Published var currentMealPlan: MealPlan = MealPlan()
   
   let recipeService: RecipeService
   let recipeStorage = UserDefaults.standard
@@ -129,3 +130,79 @@ extension RecipeViewModel {
     recipeStorage.set(Array(self.favoriteRecipes), forKey: Constant.favorites)
   }
 }
+
+// MARK: - Meal Planner With Shopping List Handler
+
+extension RecipeViewModel {
+  func addRecipeToDay(_ day: DayOfWeek, recipeId: String) {
+    if currentMealPlan.dailyMeals[day] == nil {
+      currentMealPlan.dailyMeals[day] = []
+    }
+    currentMealPlan.dailyMeals[day]?.append(recipeId)
+    saveMealPlan()
+  }
+  
+  func removeRecipeFromDay(_ day: DayOfWeek, recipeId: String) {
+    currentMealPlan.dailyMeals[day]?.removeAll { $0 == recipeId }
+    saveMealPlan()
+  }
+  
+  func getRecipesForDay(_ day: DayOfWeek) -> [Recipe] {
+    let recipeIds = currentMealPlan.dailyMeals[day] ?? []
+    return recipeIds.compactMap { id in
+      recipes.first { $0.id == id }
+    }
+  }
+  
+  func clearMealPlan() {
+    currentMealPlan = MealPlan()
+    saveMealPlan()
+  }
+  
+  func generateConsolidatedShoppingList() -> [ShoppingList] {
+    var ingredientMap: [String: ShoppingList] = [:]
+    
+    let allPlannedRecipes = DayOfWeek.allCases.flatMap { day in
+      getRecipesForDay(day)
+    }
+    
+    for recipe in allPlannedRecipes {
+      for ingredient in recipe.ingredients {
+        let normalizedName = ingredient.name.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if var existing = ingredientMap[normalizedName] {
+          existing.totalQuantity = mergeQuantities(existing.totalQuantity, ingredient.quantity)
+          existing.sources.append(recipe.title)
+          ingredientMap[normalizedName] = existing
+        } else {
+          ingredientMap[normalizedName] = ShoppingList(
+            name: ingredient.name,
+            totalQuantity: ingredient.quantity,
+            sources: [recipe.title]
+          )
+        }
+      }
+    }
+    
+    return Array(ingredientMap.values).sorted { $0.name < $1.name }
+  }
+  
+  private func mergeQuantities(_ quantity1: String, _ quantity2: String) -> String {
+    return "\(quantity1) + \(quantity2)"
+  }
+  
+  private func saveMealPlan() {
+    if let encoded = try? JSONEncoder().encode(currentMealPlan) {
+      recipeStorage.set(encoded, forKey: "currentMealPlan")
+    }
+  }
+  
+  func loadMealPlan() {
+    if let data = recipeStorage.data(forKey: "currentMealPlan"),
+       let decoded = try? JSONDecoder().decode(MealPlan.self, from: data) {
+      currentMealPlan = decoded
+    }
+  }
+}
+
+
