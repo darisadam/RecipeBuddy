@@ -12,6 +12,7 @@ enum DataError: Error, LocalizedError {
   case fileNotFound(String)
   case failedReadingData(Error)
   case failedDecodingData(Error)
+  case badRequest
   
   var errorDescription: String? {
     switch self {
@@ -21,6 +22,8 @@ enum DataError: Error, LocalizedError {
       return "Failed to read data: \(error.localizedDescription)"
     case .failedDecodingData(let error):
       return "Failed to decode data: \(error.localizedDescription)"
+    case .badRequest:
+      return "Bad Request"
     }
   }
 }

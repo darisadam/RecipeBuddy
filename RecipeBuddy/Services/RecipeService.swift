@@ -10,18 +10,32 @@ import Foundation
 
 struct RecipeService {
   private var fileName: String
+  private var remoteURL: String
   
-  init(fileName: String) {
+  init(fileName: String, remoteURL: String) {
     self.fileName = fileName
+    self.remoteURL = remoteURL
   }
   	
-  func loadRecipe(from fileName: String) async throws -> [Recipe] {
-    guard let fileURL = Bundle.main.url(forResource: fileName, withExtension: "json") else {
-      throw DataError.fileNotFound(fileName)
+  func loadRecipe(localPath fileName: String, remotePath remoteURL: String) async throws -> [Recipe] {
+    guard let url = URL(string: remoteURL) else {
+      throw DataError.fileNotFound(remoteURL)
+    }
+    
+    let (data, response) = try await URLSession.shared.data(from: url)
+    
+    guard let httpResponse = response as? HTTPURLResponse,
+          httpResponse.statusCode == 200 else {
+      throw DataError.badRequest
+      
+      guard let fileURL = Bundle.main.url(forResource: fileName, withExtension: "json") else {
+        throw DataError.fileNotFound(fileName)
+      }
+      
+      let data = try Data(contentsOf: fileURL)
     }
     
     do {
-      let data = try Data(contentsOf: fileURL)
       let decoder = JSONDecoder()
       let recipes = try decoder.decode([Recipe].self, from: data)
       return recipes

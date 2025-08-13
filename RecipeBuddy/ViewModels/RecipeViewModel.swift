@@ -34,7 +34,7 @@ class RecipeViewModel: ObservableObject {
   }
   
   func populateRecipeData() async throws {
-    recipes = try await recipeService.loadRecipe(from: Constant.recipeFile)
+    recipes = try await recipeService.loadRecipe(localPath: Constant.recipeFile, remotePath: Constant.recipesDataUrl)
   }
   
   func populateRecipeById(_ id: String) -> Recipe? {
