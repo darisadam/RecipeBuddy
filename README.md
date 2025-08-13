@@ -5,7 +5,7 @@
 
 [![Watch the video](https://img.youtube.com/vi/ow9oIM9iSjM/maxresdefault.jpg)](https://youtu.be/ow9oIM9iSjM)<br />
 
-Video: https://youtube.com/shorts/ow9oIM9iSjM<br />
+Video: https://drive.google.com/file/d/166_b8sJLNjBtSsBta3isilyT14-xbCc_/view?usp=sharing<br />
 GitHub: https://github.com/darisadam/RecipeBuddy<br />
 TestFlight: https://testflight.apple.com/join/4cfU6EVZ (waiting for approval from the App Store)<br />
 
@@ -34,7 +34,7 @@ The View component contains the interface that users see and interact with. Data
 ### Level 2:
 - Sort and filter: sort by time (asc/desc) and filter by tags.
 - Offline-first: default to bundled JSON. Add a data-source switch to load from a remote JSON URL (GitHub raw). On failure, gracefully fall back to bundled data.
-- Testing and caching: unit tests for JSON decoding and one ViewModel; basic image caching (URLCache/NSCache).
+- Caching: basic image caching.
 
 ### Level 3:
 - Meal plan and shopping list: let users add recipes to “This Week’s Plan”; generate a consolidated shopping list that merges duplicate ingredients and quantities.
