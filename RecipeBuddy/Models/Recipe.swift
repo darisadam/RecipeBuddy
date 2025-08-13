@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Recipe: Identifiable, Codable {
+struct Recipe: Identifiable, Codable, Hashable {
   let id: String
   let title: String
   let tags: [String]

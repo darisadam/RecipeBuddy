@@ -11,21 +11,33 @@ struct HomeView: View {
   @EnvironmentObject private var viewModel: RecipeViewModel
   
   var body: some View {
-    VStack {
-      List(viewModel.recipes) { recipe in
-        RecipeItem(
-          thumbnailURL: recipe.image,
-          title: recipe.title,
-          tags: recipe.tags,
-          estimatedTime: recipe.minutes
-        )
+    NavigationStack {
+      VStack {
+        List {
+          ForEach(viewModel.recipes) { recipe in
+            NavigationLink(value: recipe.id) {
+              RecipeItem(
+                thumbnailURL: recipe.image,
+                title: recipe.title,
+                tags: recipe.tags,
+                estimatedTime: recipe.minutes
+              )
+            }
+          }
+        }
       }
-    }
-    .task {
-      do {
-        try await viewModel.populateRecipeData()
-      } catch {
-        print(DataError.failedReadingData(error))
+      .navigationDestination(
+        for: String.self,
+        destination: { recipeId in
+          RecipeDetailView(recipeId: recipeId)
+        }
+      )
+      .task {
+        do {
+          try await viewModel.populateRecipeData()
+        } catch {
+          print(DataError.failedReadingData(error))
+        }
       }
     }
   }

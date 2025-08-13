@@ -21,4 +21,12 @@ class RecipeViewModel: ObservableObject {
   func populateRecipeData() async throws {
     recipes = try await recipeService.loadRecipe(from: Constant.recipeFile)
   }
+  
+  func populateRecipeById(_ id: String) -> Recipe? {
+    guard let index = recipes.firstIndex(where: { $0.id == id }) else {
+      return nil
+    }
+    
+    return recipes[index]
+  }
 }
