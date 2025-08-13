@@ -72,10 +72,30 @@ struct ShoppingListView: View {
       }
       .navigationTitle("Shopping List")
       .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
+        ToolbarItem(placement: .topBarTrailing) {
+          if shoppingList.isNotEmpty {
+            ShareLink(item: shareText) { Image(systemName: "square.and.arrow.up") }
+          }
+        }
+      }
       .onAppear {
         generateShoppingList()
       }
     }
+  }
+  
+  private var shareText: String {
+    guard shoppingList.isNotEmpty else { return "Shopping list is empty." }
+    var lines: [String] = ["Shopping List", "================", ""]
+    for item in shoppingList {
+      var line = "• \(item.name) — \(item.totalQuantity)"
+      if item.sources.count > 1 {
+        line += " (used in: \(item.sources.joined(separator: ", ")))"
+      }
+      lines.append(line)
+    }
+    return lines.joined(separator: "\n")
   }
   
   private func generateShoppingList() {
