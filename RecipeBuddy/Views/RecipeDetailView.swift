@@ -63,8 +63,10 @@ struct RecipeDetailView: View {
               .font(.title)
               .onTapGesture {
                 if viewModel.favoriteRecipes.contains(recipeId) {
+                  AnalyticsManager.shared.logEvent(name: AnalyticsKey.unfavoriteButtonTapped)
                   viewModel.removeFavorite(recipeId)
                 } else {
+                  AnalyticsManager.shared.logEvent(name: AnalyticsKey.favoriteButtonTapped)
                   viewModel.addFavorite(recipeId)
                 }
               }
@@ -102,6 +104,7 @@ struct RecipeDetailView: View {
               Text("•")
               Text(step)
             }
+            .onTapGesture { AnalyticsManager.shared.logEvent(name: AnalyticsKey.ingredientChecklist) }
           }
         }
         .padding(.horizontal, 40)

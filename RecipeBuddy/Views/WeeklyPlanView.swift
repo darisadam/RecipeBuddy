@@ -25,6 +25,7 @@ struct WeeklyPlanView: View {
           
           Button("Clear All") {
             viewModel.clearMealPlan()
+            AnalyticsManager.shared.logEvent(name: AnalyticsKey.clearPlan)
           }
           .buttonStyle(.bordered)
           .foregroundColor(.red)
@@ -45,6 +46,7 @@ struct WeeklyPlanView: View {
                   viewModel.removeRecipeFromDay(day, recipeId: recipeId)
                 }
               )
+              .onTapGesture { AnalyticsManager.shared.logEvent(name: AnalyticsKey.addRecipeToPlan) }
             }
           }
           .padding(.horizontal)
@@ -62,6 +64,7 @@ struct WeeklyPlanView: View {
           .background(Color.blue)
           .foregroundColor(.white)
           .cornerRadius(12)
+          .onTapGesture { AnalyticsManager.shared.logEvent(name: AnalyticsKey.generateShoppingList) }
         }
         .padding()
       }
@@ -80,6 +83,7 @@ struct WeeklyPlanView: View {
         .environmentObject(viewModel)
       }
     }
+    .onAppear { AnalyticsManager.shared.logEvent(name: AnalyticsKey.plan) }
   }
 }
 

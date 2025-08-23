@@ -35,6 +35,7 @@ struct SelectMealView: View {
         
         List(filteredRecipes) { recipe in
           Button(action: {
+            AnalyticsManager.shared.logEvent(name: AnalyticsKey.addToPlan)
             onRecipeSelected(recipe.id)
           }) {
             HStack {
@@ -77,6 +78,7 @@ struct SelectMealView: View {
       .toolbar {
         ToolbarItem(placement: .navigationBarLeading) {
           Button("Cancel") {
+            AnalyticsManager.shared.logEvent(name: AnalyticsKey.cancelAddToPlan)
             dismiss()
           }
         }

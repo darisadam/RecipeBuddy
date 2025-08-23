@@ -62,6 +62,7 @@ struct ShoppingListView: View {
                 Spacer()
                 Button("Refresh") {
                   generateShoppingList()
+                  AnalyticsManager.shared.logEvent(name: AnalyticsKey.refreshShoppingList)
                 }
                 .font(.caption)
                 .buttonStyle(.bordered)
@@ -76,11 +77,13 @@ struct ShoppingListView: View {
         ToolbarItem(placement: .topBarTrailing) {
           if shoppingList.isNotEmpty {
             ShareLink(item: shareText) { Image(systemName: "square.and.arrow.up") }
+              .onTapGesture { AnalyticsManager.shared.logEvent(name: AnalyticsKey.shareShoppingList) }
           }
         }
       }
       .onAppear {
         generateShoppingList()
+        AnalyticsManager.shared.logEvent(name: AnalyticsKey.shoppingList)
       }
     }
   }

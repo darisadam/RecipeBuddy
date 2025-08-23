@@ -30,11 +30,13 @@ struct FavoriteRecipeView: View {
                   tags: recipe.tags,
                   estimatedTime: recipe.minutes
                 )
+                .onTapGesture { AnalyticsManager.shared.logEvent(name: AnalyticsKey.favoriteRecipeDetail) }
               }
             }
             .swipeActions(edge: .trailing) {
               Button("Remove") {
                 viewModel.removeFavorite(recipe.id)
+                AnalyticsManager.shared.logEvent(name: AnalyticsKey.removeFromFavorite)
               }
               .tint(.red)
             }
@@ -50,6 +52,7 @@ struct FavoriteRecipeView: View {
         }
       )
     }
+    .onAppear { AnalyticsManager.shared.logEvent(name: AnalyticsKey.favorite) }
   }
 }
 
