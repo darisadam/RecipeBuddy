@@ -25,7 +25,10 @@ struct FilteringView: View {
         
         List {
           ForEach(viewModel.availableTags, id: \.self) { tag in
-            Button(action: { viewModel.toggleTagFilter(tag) }) {
+            Button(action: {
+              AnalyticsManager.shared.logEvent(name: AnalyticsKey.filterRecipe)
+              viewModel.toggleTagFilter(tag)
+            }) {
               Text(viewModel.selectedTags.contains(tag) ? "\(tag) ✓" : tag)
             }
           }
@@ -36,6 +39,7 @@ struct FilteringView: View {
         HStack {
           Spacer()
           Button("Clear Tags") {
+            AnalyticsManager.shared.logEvent(name: AnalyticsKey.clearTagFilter)
             viewModel.clearAllFilters()
           }
           .buttonStyle(.bordered)
@@ -56,10 +60,12 @@ struct FilteringView: View {
         
         List {
           Button("Shortest") {
+            AnalyticsManager.shared.logEvent(name: AnalyticsKey.sortByShortestTimeToPrepare)
             viewModel.setSortOrder(.ascending)
           }
           
           Button("Longest") {
+            AnalyticsManager.shared.logEvent(name: AnalyticsKey.sortByLongestTimeToPrepare)
             viewModel.setSortOrder(.descending)
           }
         }
@@ -69,6 +75,7 @@ struct FilteringView: View {
         HStack {
           Spacer()
           Button("Reset Sort") {
+            AnalyticsManager.shared.logEvent(name: AnalyticsKey.resetSortingFilter)
             viewModel.setSortOrder(nil)
           }
           .buttonStyle(.bordered)

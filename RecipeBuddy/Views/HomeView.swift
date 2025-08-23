@@ -26,6 +26,7 @@ struct HomeView: View {
                   tags: recipe.tags,
                   estimatedTime: recipe.minutes
                 )
+                .onTapGesture { AnalyticsManager.shared.logEvent(name: AnalyticsKey.recipeDetail) }
               }
             }
           }
@@ -38,6 +39,7 @@ struct HomeView: View {
         ToolbarItem(placement: .topBarLeading) {
           Button {
             showFilterAndShort.toggle()
+            AnalyticsManager.shared.logEvent(name: AnalyticsKey.filter)
           } label: {
             Image(systemName: AppImage.line3HorizontalDecreaseIcon)
           }
@@ -58,6 +60,7 @@ struct HomeView: View {
       }
     }
     .searchable(text: $viewModel.searchbarText, prompt: "Search recipe")
+    .onAppear { AnalyticsManager.shared.logEvent(name: AnalyticsKey.home) }
   }
 }
 
