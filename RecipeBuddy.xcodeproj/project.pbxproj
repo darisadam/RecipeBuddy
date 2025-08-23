@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		AE0797952E59ED5A002537D3 /* netfox in Frameworks */ = {isa = PBXBuildFile; productRef = AE0797942E59ED5A002537D3 /* netfox */; };
+		AE0797982E59EEF5002537D3 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE0797972E59EEF5002537D3 /* AdSupport.framework */; };
+		AEAE12DB2E59EBA200CD2B3F /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = AEAE12DA2E59EBA200CD2B3F /* FirebaseAnalytics */; };
+		AEAE12DD2E59EBA200CD2B3F /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = AEAE12DC2E59EBA200CD2B3F /* FirebaseCrashlytics */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		AEE0D5E32E4CCCF200158A1F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -17,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AE0797972E59EEF5002537D3 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		AEE0D44F2E4BB41E00158A1F /* RecipeBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecipeBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEE0D5DF2E4CCCF200158A1F /* RecipeBuddyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeBuddyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -39,6 +47,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEAE12DB2E59EBA200CD2B3F /* FirebaseAnalytics in Frameworks */,
+				AE0797982E59EEF5002537D3 /* AdSupport.framework in Frameworks */,
+				AEAE12DD2E59EBA200CD2B3F /* FirebaseCrashlytics in Frameworks */,
+				AE0797952E59ED5A002537D3 /* netfox in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,11 +64,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AE0797962E59EEF4002537D3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AE0797972E59EEF5002537D3 /* AdSupport.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AEE0D4462E4BB41E00158A1F = {
 			isa = PBXGroup;
 			children = (
 				AEE0D4512E4BB41E00158A1F /* RecipeBuddy */,
 				AEE0D5E02E4CCCF200158A1F /* RecipeBuddyTests */,
+				AE0797962E59EEF4002537D3 /* Frameworks */,
 				AEE0D4502E4BB41E00158A1F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -80,6 +101,7 @@
 				AEE0D44B2E4BB41E00158A1F /* Sources */,
 				AEE0D44C2E4BB41E00158A1F /* Frameworks */,
 				AEE0D44D2E4BB41E00158A1F /* Resources */,
+				AE07979B2E59F070002537D3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -90,6 +112,9 @@
 			);
 			name = RecipeBuddy;
 			packageProductDependencies = (
+				AEAE12DA2E59EBA200CD2B3F /* FirebaseAnalytics */,
+				AEAE12DC2E59EBA200CD2B3F /* FirebaseCrashlytics */,
+				AE0797942E59ED5A002537D3 /* netfox */,
 			);
 			productName = RecipeBuddy;
 			productReference = AEE0D44F2E4BB41E00158A1F /* RecipeBuddy.app */;
@@ -147,6 +172,10 @@
 			);
 			mainGroup = AEE0D4462E4BB41E00158A1F;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				AEAE12D92E59EBA200CD2B3F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				AE0797932E59ED5A002537D3 /* XCRemoteSwiftPackageReference "netfox" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AEE0D4502E4BB41E00158A1F /* Products */;
 			projectDirPath = "";
@@ -174,6 +203,32 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		AE07979B2E59F070002537D3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}.debug.dylib",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AEE0D44B2E4BB41E00158A1F /* Sources */ = {
@@ -329,6 +384,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = Q99UJS4WY6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -459,6 +515,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AE0797932E59ED5A002537D3 /* XCRemoteSwiftPackageReference "netfox" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kasketis/netfox";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.21.0;
+			};
+		};
+		AEAE12D92E59EBA200CD2B3F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AE0797942E59ED5A002537D3 /* netfox */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AE0797932E59ED5A002537D3 /* XCRemoteSwiftPackageReference "netfox" */;
+			productName = netfox;
+		};
+		AEAE12DA2E59EBA200CD2B3F /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AEAE12D92E59EBA200CD2B3F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		AEAE12DC2E59EBA200CD2B3F /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AEAE12D92E59EBA200CD2B3F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = AEE0D4472E4BB41E00158A1F /* Project object */;
 }
